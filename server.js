@@ -46,15 +46,18 @@ var app = express();
 app.engine("html", consolidate.handlebars);
 app.set("view engine", ".html");
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
 app.use(favicon(__dirname + "/public/favicon.ico"));
 app.use(logger("common"));
 app.use(methodOverride());
-app.use(session({ resave: true,
-                  saveUninitialized: true,
-                  secret: node_config.session_key }));
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: node_config.session_key
+}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static(path.join(__dirname, "public")));
 
 /*
@@ -70,8 +73,6 @@ app.get("/activity/:dbname", function(req, res) {
     console.log(exception.stack);
     res.status(500);
     res.render("500");
-    res.status(404);
-    res.redirect("/404.html");
   });
 });
 
@@ -93,7 +94,6 @@ app.get("/db/:dbname", function(req, res) {
     }
   }).fail(function(exception) {
     console.log(exception.stack);
-  }, function() {
     res.status(404);
     res.render("500");
   });
@@ -161,7 +161,7 @@ app.get("/:username/:titleAsUrl", function(req, res) {
     });
   }).fail(function(exception) {
     console.log(exception.stack);
-    res.status(404);
+    res.status(500);
     res.render("500");
   });
 });
@@ -223,4 +223,4 @@ if (process.env.NODE_DEPLOY_TARGET === "production") {
 }
 
 exports.app = app;
-console.log("please open http://www.robpeck.com/2010/10/google-chrome-mac-os-x-and-self-signed-ssl-certificates/#.VVtxQVVVhBc to see how you should accept the security cerrtificate"); 
+console.log("please open http://www.robpeck.com/2010/10/google-chrome-mac-os-x-and-self-signed-ssl-certificates/#.VVtxQVVVhBc to see how you should accept the security cerrtificate");
